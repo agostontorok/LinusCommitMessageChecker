@@ -17,21 +17,21 @@ get_review_action() {
 check_message() {
     local message=$1
     local message_string=$( cat "$message" )
-    local ChecksAndReasons=("^[A-Z]:Why aren't you starting the commit message with a capital letter like everyone else?")
+    local ChecksAndReasons=("^[A-Z]:Why aren't you starting the commit message with a capital letter like everyone else?"
+        "^(Add|Cut|Fix|Bump|Make|Start|Stop|Refactor|Reformat|Optimize|Document):Why do you want to invent a starting word for your commit? Use one of Add, Fix etc. that we usually use.")
 
-
-    for KeyValPair in $ChecksAndReasons
+    for KeyValPair in "${ChecksAndReasons[@]}"
         do
           pattern=`echo "$KeyValPair" | cut -d':' -f1`
           reason=`echo "$KeyValPair" | cut -d':' -f2`
-          echo "$pattern$reason"
-          if ! head -1 "$message" | grep "$pattern" "$1"; then
+          echo "$pattern $message_string"
+          if ! head -1 "$message" | grep -E "$pattern" "$1"; then
             action=$(get_review_action)
             echo "$action $reason" >&2
             exit 1
             fi
           
-    done
+        done
     
 }
 
