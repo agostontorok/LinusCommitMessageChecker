@@ -9,10 +9,15 @@ fi
 
 IFS=$'\n'
 
+get_review_action() {
+    echo "I'm aborting this commit." 
+}
+
+
 check_message() {
     local message=$1
     local message_string=$( cat "$message" )
-    local ChecksAndReasons=("^[A-Z]:I'm aborting this commit. Why aren't you starting the commit message with a capital letter like everyone else?")
+    local ChecksAndReasons=("^[A-Z]:Why aren't you starting the commit message with a capital letter like everyone else?")
 
 
     for KeyValPair in $ChecksAndReasons
@@ -21,7 +26,8 @@ check_message() {
           reason=`echo "$KeyValPair" | cut -d':' -f2`
           echo "$pattern$reason"
           if ! head -1 "$message" | grep "$pattern" "$1"; then
-            echo "$reason" >&2
+            action=$(get_review_action)
+            echo "$action $reason" >&2
             exit 1
             fi
           
