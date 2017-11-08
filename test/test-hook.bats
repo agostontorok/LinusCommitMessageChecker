@@ -110,3 +110,17 @@ teardown() {
   
   refute_line --partial "my_file additions match 'TODO'"
 }
+
+
+@test "Should not be more than 50 characters" {
+  specific_error_code=252
+
+  echo "Some content" > my_file
+  git add my_file
+  # simulate git commit -m ...
+  echo "Add here an overly verbose line that is longer than 50 characters" > .git/COMMIT_EDITMSG
+  run ./.git/hooks/commit-msg .git/COMMIT_EDITMSG
+  [ "$status" -eq "$specific_error_code" ] 
+  
+  refute_line --partial "my_file additions match 'TODO'"
+}
