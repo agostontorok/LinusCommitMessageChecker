@@ -48,7 +48,7 @@ teardown() {
 @test "Should let you make normal all-good commits" {
   echo "Some content" > my_file
   git add my_file
-  run git commit -m "Add content"
+  run git commit -m "Fix"
   assert_success
   refute_line --partial "This commit message does not conform our policy"
 }
@@ -88,6 +88,25 @@ teardown() {
   echo "Some content" >> my_file && git add my_file
   run git commit -m "Download"
   [ "$status" -eq 1 ]    
+  
+  refute_line --partial "my_file additions match 'TODO'"
+}
+
+@test "Should not let messages with past tense" {
+  specific_error_code=253
+
+  echo "Some content" > my_file
+  git add my_file
+  # simulate git commit -m ...
+  echo "Added content" > .git/COMMIT_EDITMSG
+  run ./.git/hooks/commit-msg .git/COMMIT_EDITMSG
+  [ "$status" -eq "$specific_error_code" ] 
+
+  echo "Some content" >> my_file && git add my_file
+  # simulate git commit -m ...
+  echo "Fixed content" > .git/COMMIT_EDITMSG
+  run ./.git/hooks/commit-msg .git/COMMIT_EDITMSG
+  [ "$status" -eq "$specific_error_code" ]    
   
   refute_line --partial "my_file additions match 'TODO'"
 }
