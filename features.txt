@@ -7,3 +7,4 @@ Todo:
 - Linus quotes for the no action word, long line, no capital
 - Gitmessage template
 - Gamification with XP collection
+- Try catching specific error codes in tests
