@@ -41,6 +41,20 @@ teardown() {
   git add my_file
   run git commit -m "Content"
   assert_success
-  refute_line --partial "my_file additions match 'TODO'"
+  refute_line --partial "This commit message does not conform our policy"
 }
 
+
+@test "Should not let messages not starting with capital letter" {
+  echo "Some content" > my_file
+  git add my_file
+  run git commit -m "content"
+  echo "Some content" >> my_file && git add my_file
+  assert_failure
+  run git commit -m "content\nContent"
+  echo "Some content" >> my_file && git add my_file
+  assert_failure
+  run git commit -m "lowercase letter Capital letter"
+  assert_failure
+  refute_line --partial "my_file additions match 'TODO'"
+}
