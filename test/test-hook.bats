@@ -124,3 +124,25 @@ teardown() {
   
   refute_line --partial "my_file additions match 'TODO'"
 }
+
+@test "XP becomes less if mistake was made and more if good commit message detected" {
+  initial_xp=100
+  git config --add hooks.xp $initial_xp
+  echo "Some content" > my_file
+  git add my_file
+  # simulate git commit -m ...
+  run git commit -m "added feature"
+  smaller_xp=$(git config --get hooks.xp) 
+  echo "$smaller_xp < $initial_xp"
+  [ "$smaller_xp" -lt "$initial_xp" ] 
+
+  echo "Some content" >> my_file
+  git add my_file
+  # simulate git commit -m ...
+  run git commit -m "Add new feature"
+  bigger_xp=$(git config --get hooks.xp) 
+  echo "$bigger_xp > $smaller_xp"
+  [ "$bigger_xp" -gt "$smaller_xp" ]
+  
+  refute_line --partial "my_file additions match 'TODO'"
+}
