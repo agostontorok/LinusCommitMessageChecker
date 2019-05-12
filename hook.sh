@@ -12,13 +12,21 @@ IFS=$'\n'
 check_message() {
     local message=$1
     local message_string=$( cat "$message" )
-    local pattern1='^[A-Z]'
-    local error_msg="I'm aborting this commit. Why aren't you starting the commit message with a capital letter like everyone else?"
+    local ChecksAndReasons=("^[A-Z]:I'm aborting this commit. Why aren't you starting the commit message with a capital letter like everyone else?")
 
-    if ! head -1 "$message" | grep "$pattern1" "$1"; then
-    echo "$error_msg" >&2
-    exit 1
-fi
+
+    for KeyValPair in $ChecksAndReasons
+        do
+          pattern=`echo "$KeyValPair" | cut -d':' -f1`
+          reason=`echo "$KeyValPair" | cut -d':' -f2`
+          echo "$pattern$reason"
+          if ! head -1 "$message" | grep "$pattern" "$1"; then
+            echo "$reason" >&2
+            exit 1
+            fi
+          
+    done
+    
 }
 
 # Actual hook logic:
