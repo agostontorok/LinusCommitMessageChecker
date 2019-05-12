@@ -19,7 +19,8 @@ check_message() {
     local message_string=$( cat "$message" )
     local ChecksAndReasons=("^[A-Z]:Why aren't you starting the commit message with a capital letter like everyone else?:255"
         "^(Add|Cut|Fix|Bump|Make|Start|Stop|Refactor|Reformat|Optimize|Document):Why do you want to invent a starting word for your commit? Use one of Add, Fix etc. that we usually use.:254"
-        "^(Add|Cut|Fix|Bump|Make|Start|Stop|Refactor|Reformat|Optimize|Document)(?!ed):Don't use past tense, your commit has not been accepted yet.:253")
+        "^(Add|Cut|Fix|Bump|Make|Start|Stop|Refactor|Reformat|Optimize|Document)(?!ed):Don't use past tense, your commit has not been accepted yet.:253"
+        "^.{1,50}(?!.):Seriously? You expected me to read this overly verbose commit message?:252")
     for KeyValPair in "${ChecksAndReasons[@]}"
         do
           pattern=`echo "$KeyValPair" | cut -d':' -f1`
