@@ -1,7 +1,7 @@
 Done:
+- Install Bats and add tests for regexes
 
 Doing:
-- Install Bats and add tests for regexes
 
 Todo:
 - Linus quotes for the no action word, long line, no capital
