@@ -39,7 +39,7 @@ teardown() {
 @test "Should let you make normal all-good commits" {
   echo "Some content" > my_file
   git add my_file
-  run git commit -m "Content"
+  run git commit -m "Add content"
   assert_success
   refute_line --partial "This commit message does not conform our policy"
 }
@@ -55,6 +55,21 @@ teardown() {
   echo "Some content" >> my_file && git add my_file
   assert_failure
   run git commit -m "lowercase letter Capital letter"
+  assert_failure
+  refute_line --partial "my_file additions match 'TODO'"
+}
+
+
+@test "Should not let messages not starting action verbs such as Add, Remove, Modify" {
+  echo "Some content" > my_file
+  git add my_file
+  run git commit -m "Vary"
+  echo "Some content" >> my_file && git add my_file
+  assert_failure
+  run git commit -m "Burn"
+  echo "Some content" >> my_file && git add my_file
+  assert_failure
+  run git commit -m "Download"
   assert_failure
   refute_line --partial "my_file additions match 'TODO'"
 }
