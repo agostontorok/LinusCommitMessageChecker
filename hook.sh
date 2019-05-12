@@ -27,7 +27,7 @@ check_message() {
     echo "Linus is checking your commit message ..."
 
     local message=$1 # refer as message to the first arg
-    local message_string=$( cat "$message" ) # the actual string of the message
+    # local message_string=$( cat "$message" ) # the actual string of the message
 
     # here collect the list of possible checks in 
     # RegexCheck:Reason:ErrorCode format
