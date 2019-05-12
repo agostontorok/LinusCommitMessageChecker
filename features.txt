@@ -1,0 +1,9 @@
+Done:
+
+Doing:
+
+Todo:
+- Install Bats and add tests for regexes
+- Linus quotes for the no action word, long line, no capital
+- Gitmessage template
+- Gamification with XP collection
