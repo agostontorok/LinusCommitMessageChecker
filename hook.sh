@@ -12,10 +12,10 @@ IFS=$'\n'
 check_message() {
     local message=$1
     local message_string=$( cat "$message" )
-    local pattern1='test'
-    local error_msg="Aborting commit. Your commit message is missing $pattern1, it is $message_string"
+    local pattern1='^[A-Z]'
+    local error_msg="I'm aborting this commit. Why aren't you starting the commit message with a capital letter like everyone else?"
 
-    if ! grep -iqE "$pattern1" "$message"; then
+    if ! head -1 "$message" | grep "$pattern1" "$1"; then
     echo "$error_msg" >&2
     exit 1
 fi
