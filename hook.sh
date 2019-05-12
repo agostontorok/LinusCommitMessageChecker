@@ -9,41 +9,6 @@ fi
 
 IFS=$'\n'
 
-# http://djm.me/ask
-ask() {
-    while true; do
-
-        if [ "${2:-}" = "Y" ]; then
-            prompt="Y/n"
-            default=Y
-        elif [ "${2:-}" = "N" ]; then
-            prompt="y/N"
-            default=N
-        else
-            prompt="y/n"
-            default=
-        fi
-
-        # Ask the question (not using "read -p" as it uses stderr not stdout)
-        echo -n "$1 [$prompt] "
-
-        # Read the answer
-        read REPLY < "$TTY"
-
-        # Default?
-        if [ -z "$REPLY" ]; then
-            REPLY=$default
-        fi
-
-        # Check if the reply is valid
-        case "$REPLY" in
-            Y*|y*) return 0 ;;
-            N*|n*) return 1 ;;
-        esac
-
-    done
-}
-
 check_file() {
     local file=$1
     local match_pattern=$2
@@ -60,13 +25,6 @@ check_file() {
         do
             echo "$matched_line"
         done
-
-        if ask "Include this in your commit?"; then
-            echo 'Including'
-        else
-            echo "Not committing, because $file matches $match_pattern"
-            exit 1
-        fi
     fi
 }
 
