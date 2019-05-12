@@ -22,7 +22,7 @@ setup() {
   git init
   git config user.email "test@git-confirm"
   git config user.name "Git Confirm Tests"
-  cp "$BASE_DIR/hook.sh" ./.git/hooks/pre-commit
+  cp "$BASE_DIR/hook.sh" ./.git/hooks/commit-msg
 }
 
 teardown() {
@@ -40,7 +40,7 @@ teardown() {
   echo "Some content" > my_file
   git add my_file
   run git commit -m "Content"
-
   assert_success
   refute_line --partial "my_file additions match 'TODO'"
 }
+
