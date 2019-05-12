@@ -14,6 +14,17 @@ get_review_action() {
 }
 
 
+update_xp(){
+    xp=$(git config --get hooks.xp)
+    echo "$xp"
+    if [ -z "$xp" ]; then
+        xp=100
+    fi
+    xp=$(($xp+$1))
+    echo "$xp"
+    git config --add hooks.xp "$xp"
+}
+
 check_message() {
     local message=$1
     local message_string=$( cat "$message" )
@@ -31,10 +42,14 @@ check_message() {
           if ! head -1 "$message" | grep -P "$pattern" "$1"; then
             action=$(get_review_action)
             echo "$action $reason $error_code" >&2
+            update_xp -5
             exit $error_code
             fi
           
         done
+
+    ## all good
+    update_xp 1
     
 }
 
