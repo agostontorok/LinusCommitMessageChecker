@@ -36,6 +36,15 @@ teardown() {
   cd $BATS_TEST_DIRNAME
 }
 
+@test "Metatest" {
+  echo "Some content" > my_file
+  git add my_file
+  # simulate git commit -m "add content"
+  echo "add content" > .git/COMMIT_EDITMSG
+  run ./.git/hooks/commit-msg .git/COMMIT_EDITMSG
+  [ "$status" -eq 255 ]
+}
+
 @test "Should let you make normal all-good commits" {
   echo "Some content" > my_file
   git add my_file
@@ -46,16 +55,21 @@ teardown() {
 
 
 @test "Should not let messages not starting with capital letter" {
+  specific_error_code=255
+
   echo "Some content" > my_file
   git add my_file
-  run git commit -m "content"
+  # simulate git commit -m "add content"
+  echo "add content" > .git/COMMIT_EDITMSG
+  run ./.git/hooks/commit-msg .git/COMMIT_EDITMSG
+  [ "$status" -eq "$specific_error_code" ] 
+
   echo "Some content" >> my_file && git add my_file
-  assert_failure
-  run git commit -m "content\nContent"
-  echo "Some content" >> my_file && git add my_file
-  assert_failure
-  run git commit -m "lowercase letter Capital letter"
-  assert_failure
+  # simulate git commit -m "add Content"
+  echo "add content" > .git/COMMIT_EDITMSG
+  run ./.git/hooks/commit-msg .git/COMMIT_EDITMSG
+  [ "$status" -eq "$specific_error_code" ]    
+  
   refute_line --partial "my_file additions match 'TODO'"
 }
 
@@ -64,12 +78,16 @@ teardown() {
   echo "Some content" > my_file
   git add my_file
   run git commit -m "Vary"
+  echo "$status $spec_error_code"
+  [ "$status" -eq 1 ]    
+
   echo "Some content" >> my_file && git add my_file
-  assert_failure
   run git commit -m "Burn"
+  [ "$status" -eq 1 ]   
+
   echo "Some content" >> my_file && git add my_file
-  assert_failure
   run git commit -m "Download"
-  assert_failure
+  [ "$status" -eq 1 ]    
+  
   refute_line --partial "my_file additions match 'TODO'"
 }
