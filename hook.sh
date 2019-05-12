@@ -9,12 +9,22 @@ fi
 
 IFS=$'\n'
 
-check_file() {
+check_message() {
     local message=$1
+    local message_string=$( cat "$message" )
+    local pattern1='test'
+    local error_msg="Aborting commit. Your commit message is missing $pattern1, it is $message_string"
+
+    if ! grep -iqE "$pattern1" "$message"; then
+    echo "$error_msg" >&2
+    exit 1
+fi
 }
 
 # Actual hook logic:
 
+# regex to validate in commit msg
 
-check_file "hello"
+check_message $1
+
 exit
