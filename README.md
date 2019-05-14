@@ -1,6 +1,6 @@
 Gamified git hook to check commit message when you commit them.
 
-[![Asciicast DEMO](asciicast.gif)](https://asciinema.org/a/dc7dr433caze9f8p65bitqs77?speed=2&autoplay=1)
+![demo](snapshot.png)
 
 Features:
 
