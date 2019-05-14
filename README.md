@@ -1,4 +1,4 @@
-Gamified git hook to check commit message when you commit them.
+# The gamified git hook to check commit messages.
 
 ![demo](snapshot.png)
 
