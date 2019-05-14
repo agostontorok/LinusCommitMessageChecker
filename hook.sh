@@ -10,7 +10,14 @@ fi
 IFS=$'\n'
 
 get_review_action() {
-    echo "I'm aborting this commit." 
+    start_lines=("You know nothing, Jon Snow." "Bend the knee and beg for mercy." "Dracarys!" "You chose fear.")
+
+    # seed random generator
+    RANDOM=$$$(date +%s)
+
+    # pick a random entry from the domain list to check against
+    current_starting_line=${start_lines[$RANDOM % ${#start_lines[@]}]}
+    echo "$current_starting_line" 
 }
 
 
@@ -25,7 +32,7 @@ update_xp(){
 
 check_message() {
     echo ""
-    echo  -e "\033[0;31mLinus is checking your commit message ..."
+    echo  -e "\033[0;31mDaenerys is checking your commit message ..."
 
     local message=$1 # refer as message to the first arg
     # local message_string=$( cat "$message" ) # the actual string of the message
@@ -61,7 +68,7 @@ check_message() {
 
     ## all good
     update_xp 1
-    echo -e "\033[0;31mGood job, I give you 1XP that means you have a total of ${xp}XP now."
+    echo -e "\033[0;31mMy sun and stars, I give you 1XP that means you have a total of ${xp}XP now."
     
 }
 
