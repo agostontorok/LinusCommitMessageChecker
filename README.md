@@ -16,7 +16,7 @@ Features:
 In the root of your Git repository, run:
 
 ```bash
-curl https://cdn.rawgit.com/agostontorok/LinusCommitMessageChecker/v1.0/hook.sh > .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg
+curl https://cdn.jsdelivr.net/gh/agostontorok/LinusCommitMessageChecker@v1.0/hook.sh > .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg
 ```
 
 All done. If you want to check it's installed correctly you can run:
