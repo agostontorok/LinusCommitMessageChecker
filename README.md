@@ -7,7 +7,7 @@ Features:
 * Stops you ever accidentally committing bad temporary changes.
 * Is gamified, collect XPs for nice commit messages and get reprimand when you write wrong ones.
 * Installs in any project with a single command
-* Is easily extendable and custom themes can be added (the bease version is in the style of Linus Torwalds)
+* Is easily extendable and custom themes can be added (the v1.0 is in GoT style, v1.1 is in the style of Linus Torwalds)
 * Is well tested. See [tests/test-hook.bats](https://github.com/pimterry/git-confirm/blob/master/test/test-hook.bats#L40-L9999).
 * Works on Linux, OSX and Windows ([in Powershell at least](https://twitter.com/afnpires/status/768403583263973376)).
 * It is based on the wonderful [git confirm by Tim Perry](https://github.com/pimterry/git-confirm/)
@@ -16,7 +16,7 @@ Features:
 In the root of your Git repository, run:
 
 ```bash
-curl https://cdn.rawgit.com/agostontorok/LinusCommitMessageChecker/v0.2.2/hook.sh > .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg
+curl https://cdn.rawgit.com/agostontorok/LinusCommitMessageChecker/v1.1/hook.sh > .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg
 ```
 
 All done. If you want to check it's installed correctly you can run:
